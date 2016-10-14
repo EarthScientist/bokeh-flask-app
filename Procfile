@@ -1,2 +1,2 @@
-web gunicorn manage:bokeh-flask-app
+web: gunicorn bokeh-flask-app
 
