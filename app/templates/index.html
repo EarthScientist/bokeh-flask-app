@@ -1,8 +1,13 @@
 <html>
   <head>
-    <title>{{ title }} - microblog</title>
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.css" type="text/css" />
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>
+    {{ script | safe }}
   </head>
   <body>
-      <h1>Hello, {{ user.nickname }}!</h1>
+    <div class=page>
+      <h1>{{ header }}</h1>
+      {{ div | safe }}
+    </div>
   </body>
 </html>

@@ -39,7 +39,6 @@ def make_figure():
                    x_axis_type='datetime' )
 
     plot.line(pd.to_datetime(df.get('Date')), df.get('High'), color='#A6CEE3', legend=stock )
-    # plot.line( df.get('Date'), df.get('High'), legend="line", line_width=2 )
     return plot
 
 @app.route('/')
@@ -56,5 +55,5 @@ def index():
     header = 'AAPL Highs'
 
     script, div = components( plot )
-    return render_template('index2.html', script=script, div=div, header=header )
+    return render_template('index.html', script=script, div=div, header=header )
 

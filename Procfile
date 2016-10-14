@@ -1,2 +1,2 @@
-web: ./run.py
+web: python views.py
 
