@@ -1,2 +1,1 @@
-web: gunicorn bokeh-flask-app
-
+web: gunicorn run.py
