@@ -27,7 +27,8 @@ def make_figure():
                    x_axis_label='date',
                    x_axis_type='datetime' )
 
-    plot.line(pd.to_datetime(df.get('Date')), df.get('High'), color='#A6CEE3', legend=stock )
+    # plot.line( pd.to_datetime( df.get( 'Date' ) ), df.get( 'High' ), color='#A6CEE3', legend=stock )
+    plot.line( np.array(df.get( 'Date' )), np.array(df.get( 'High' )), color='#A6CEE3', legend=stock )
     return plot
 
 @app.route('/')
