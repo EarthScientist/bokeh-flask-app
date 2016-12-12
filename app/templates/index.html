@@ -10,15 +10,15 @@
       <h1>{{ header }}</h1>
       {{ div | safe }}
     </div>
+    <form action="{{ url_for('index') }}" method="POST">
       <form action = "http://localhost:5000/index" method = post>
-
           <div style = font-size:20px; font-weight:bold; margin-left:150px;>
-             {{ form.language.label }}
+             {{ form.cols.label }}
              <br>
-             {{ form.language }}
+             {{ form.cols }}
              <br>
           </div>
-
+          <button type="submit">submit</button>
       </form>
   </body>
 </html>
