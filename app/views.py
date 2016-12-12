@@ -1,5 +1,7 @@
 from flask import render_template
 from app import app
+from flask import Flask, render_template, request, flash
+from forms import ContactForm
 
 
 def make_figure():
@@ -13,7 +15,7 @@ def make_figure():
     stock = "AAPL"
     api_url = 'https://www.quandl.com/api/v1/datasets/WIKI/%s.json' % stock
     session = requests.Session()
-    session.mount('http://', requests.adapters.HTTPAdapter(max_retries=3))
+    session.mount( 'http://', requests.adapters.HTTPAdapter( max_retries=3 ) )
     raw_data = session.get(api_url)
 
     # wrangle
@@ -32,7 +34,7 @@ def make_figure():
     return plot
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index',  methods = ['GET', 'POST'])
 def index():
     import requests
     from bokeh.plotting import figure, show
@@ -45,5 +47,31 @@ def index():
     header = 'AAPL Highs'
 
     script, div = components( plot )
-    return render_template('index.html', script=script, div=div, header=header )
+    
+    # # # FORM
+    form = ContactForm()
+    return render_template('index.html', script=script, div=div, header=header, form=form )
 
+    # if request.method == 'POST':
+        # if form.validate() == False:
+            # flash('All fields are required.')
+
+    # # # END FORM 
+
+
+
+
+
+
+# @app.route('/contact',)
+# def contact():
+#    form = ContactForm()
+   
+#    if request.method == 'POST':
+#       if form.validate() == False:
+#          flash('All fields are required.')
+#          return render_template('contact.html', form = form)
+#       else:
+#          return render_template('success.html')
+#       elif request.method == 'GET':
+#          return render_template('contact.html', form = form)
