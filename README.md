@@ -7,14 +7,14 @@ a testing ground to figure out app development with Flask / Bokeh (or Plotly) pl
 - cd into the repository
 
 ```bash
-$ virtualenv fjae
-$ source fjae/bin/activate
+$ virtualenv bfa
+$ source bfa/bin/activate
 $ pip install -r requirements.txt
 $ pip install -e ./
 ```
 
 ### Run
-* from within repo directory *
+* from within repo directory
 ```bash
 $ python run.py
 ```
