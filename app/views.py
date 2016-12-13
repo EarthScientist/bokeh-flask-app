@@ -73,4 +73,3 @@ def index():
     else:
         BaseException( 'error' )
 
-

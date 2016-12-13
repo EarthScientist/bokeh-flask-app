@@ -3,9 +3,8 @@ a testing ground to figure out app development with Flask / Bokeh (or Plotly) pl
 
 ### Install
 
-- clone the repository
-
 ```
+$ git clone git@github.com:EarthScientist/bokeh-flask-app.git
 $ cd bokeh-flask-app
 $ virtualenv bfa
 $ source bfa/bin/activate
@@ -13,7 +12,7 @@ $ pip install -r requirements.txt
 ```
 
 ### Run
-_from within the repository_
+_from within main repository directory_
 ```
 $ python run.py
 ```
