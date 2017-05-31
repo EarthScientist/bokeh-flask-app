@@ -1,6 +1,25 @@
 from flask import render_template, request
 from app import app
 
+def read_data( fn='./data/ALF_TEST.json' ):
+    from tinydb import TinyDB
+    records = TinyDB( fn ).all()
+    return records
+
+def select_metric( records, metric ):
+    return [ {'domain':domain,'fire_year':rec['fire_year'], 'replicate':rec[ 'replicate' ], metric:rec[ metric ][ domain ]} for rec in records for domain in rec[ metric ].keys() ]
+
+def select_reps( records, reps ):
+    if not isinstance( reps, list ):
+        reps = list(reps)
+    return [ rec for rec in records if rec['replicate'] in reps ]
+
+def select_years( records, years ):
+    if not isinstance( years, list ):
+        years = list( years )
+    return [ rec for rec in records if rec['fire_year'] in years ]
+
+
 
 def make_figure( col ):
     import requests
@@ -10,15 +29,32 @@ def make_figure( col ):
     import pandas as pd
     import numpy as np
 
-    stock = "AAPL"
-    api_url = 'https://www.quandl.com/api/v1/datasets/WIKI/%s.json' % stock
-    session = requests.Session()
-    session.mount( 'http://', requests.adapters.HTTPAdapter( max_retries=3 ) )
-    raw_data = session.get( api_url )
+    # read in the data from the JSON file output from ALF_PP
+    reps = [str(i) for i in [1,3,5,7,9]]
+    years = [str(i) for i in range( 2001, 2050 )]
+    metric = 'total_area_burned'
+    domain = 'AOI_SERDP'
+    dat = select_metric( select_years( select_reps( read_data(), reps ), years ), metric )
+    df = pd.DataFrame( dat )
+    df = df[ df.domain == domain ]
 
-    # wrangle
-    dat = raw_data.json()
-    df = pd.DataFrame.from_records( dat['data'], columns=dat['column_names'] )
+    replicates = df.pop( 'replicate' )
+    years = df.pop( 'fire_year' )
+    _ = df.pop( 'domain' )
+    df.index = pd.MultiIndex.from_tuples( zip(replicates, years) )
+    df.index = df.index.rename(['replicates', 'years'])
+    # df_repcols = df.unstack().T
+    df_rep = df[ df.years == '1' ] # select a rep for testing...
+
+        # stock = "AAPL"
+        # api_url = 'https://www.quandl.com/api/v1/datasets/WIKI/%s.json' % stock
+        # session = requests.Session()
+        # session.mount( 'http://', requests.adapters.HTTPAdapter( max_retries=3 ) )
+        # raw_data = session.get( api_url )
+
+        # # wrangle
+        # dat = raw_data.json()
+        # df = pd.DataFrame.from_records( dat['data'], columns=dat['column_names'] )
 
     # plot
     TOOLS = "pan,wheel_zoom,box_zoom,reset"
